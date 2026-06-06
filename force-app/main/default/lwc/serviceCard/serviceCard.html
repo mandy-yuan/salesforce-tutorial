@@ -1,0 +1,24 @@
+<template>
+    <lightning-card title="Neighborhood Service Check" icon-name="standard:location">
+        <div class="slds-p-around_medium">
+            <p class="slds-text-heading_small">
+                Selected service: {serviceName}
+            </p>
+            <p class="slds-m-top_small">
+                This Lightning Web Component updates when the user enters a new service type.
+            </p>
+            <lightning-input
+                class="slds-m-top_medium"
+                label="Enter a service type"
+                value={serviceName}
+                onchange={handleServiceChange}>
+            </lightning-input>
+            <p class="slds-m-top_medium">
+                Current input: <strong>{serviceName}</strong>
+            </p>
+        </div>
+        <div>
+            <input value = {message}></input>
+        </div>
+    </lightning-card>
+</template>

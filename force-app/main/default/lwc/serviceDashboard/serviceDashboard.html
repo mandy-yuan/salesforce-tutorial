@@ -1,0 +1,41 @@
+<template>
+    <lightning-card title="Service Dashboard" icon-name="standard:service_report">
+        <div class="slds-p-around_medium">
+            <p class="slds-text-body_regular">
+                Select a service card below. The child component will send the selected service back to this parent component.
+            </p>
+
+            <div class="slds-m-top_medium slds-grid slds-wrap slds-gutters">
+                <template for:each={servicesWithSelection} for:item="service">
+                    <div key={service.id} class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                        <c-service-tile
+                            service-id={service.id}
+                            service-name={service.name}
+                            service-description={service.description}
+                            service-status={service.status}
+                            is-selected={service.isSelected}
+                            onserviceselect={handleServiceSelect}>
+                        </c-service-tile>
+                    </div>
+                </template>
+            </div>
+
+            <div class="slds-m-top_large slds-box">
+                <p class="slds-text-heading_small">Selected Service</p>
+
+                <template lwc:if={hasSelectedService}>
+                    <p class="slds-m-top_small">
+                        You selected: <strong>{selectedServiceName}</strong>
+                    </p>
+                </template>
+
+                <template lwc:else>
+                    <p class="slds-m-top_small">
+                        No service selected yet.
+                    </p>
+                </template>
+            </div>
+        </div>
+    </lightning-card>
+</template>
+

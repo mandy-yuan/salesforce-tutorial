@@ -1,0 +1,75 @@
+<template>
+    <lightning-card title="Contact Search" icon-name="standard:contact">
+        <div class="slds-p-around_medium">
+            <p class="slds-text-body_regular">
+                Search for a contact by name, role, or company.
+            </p>
+
+            <div class="slds-m-top_medium">
+                <lightning-input
+                    type="text"
+                    label="Search contacts"
+                    placeholder="Example: Sofia, Manager, Acme"
+                    value={searchTerm}
+                    onchange={handleSearchTermChange}>
+                </lightning-input>
+            </div>
+
+            <div class="slds-m-top_medium">
+                <lightning-button
+                    label="Search"
+                    variant="brand"
+                    onclick={handleSearch}>
+                </lightning-button>
+
+                <lightning-button
+                    class="slds-m-left_small"
+                    label="Clear"
+                    variant="neutral"
+                    onclick={handleClear}>
+                </lightning-button>
+            </div>
+
+            <div class="slds-m-top_medium">
+                <lightning-badge label={resultCountLabel}></lightning-badge>
+            </div>
+
+            <template lwc:if={hasSearched}>
+                <template lwc:if={hasResults}>
+                    <div class="slds-m-top_medium">
+                        <template for:each={filteredContacts} for:item="contact">
+                            <div
+                                key={contact.id}
+                                class="slds-box slds-m-bottom_small"
+                            >
+                                <p class="slds-text-heading_small">
+                                    {contact.name}
+                                </p>
+
+                                <p class="slds-text-body_regular">
+                                    {contact.role}
+                                </p>
+
+                                <p class="slds-text-body_small slds-text-color_weak">
+                                    {contact.company}
+                                </p>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+
+                <template lwc:else>
+                    <div class="slds-m-top_medium slds-box">
+                        <p>No contacts found. Try a different search term.</p>
+                    </div>
+                </template>
+            </template>
+
+            <template lwc:else>
+                <div class="slds-m-top_medium slds-box">
+                    <p>Enter a search term, then click Search.</p>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>
