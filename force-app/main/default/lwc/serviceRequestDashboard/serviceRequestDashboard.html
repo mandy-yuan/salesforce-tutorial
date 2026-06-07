@@ -1,0 +1,119 @@
+<template> 
+    <lightning-card title="Service Request Dashboard" icon-name="standard:service_report">
+        <div class="slds-p-around_medium">
+            <p class="slds-text-body_regular">
+                Search for an Account, select a result, then update service contact details with the record form.
+            </p>
+
+            <div class="slds-m-top_medium">
+                <lightning-input
+                    type="text"
+                    label="Search Accounts"
+                    placeholder="Example: Acme, Northstar, 555-1001"
+                    value={searchTerm}
+                    onchange={handleSearchTermChange}>
+                </lightning-input>
+            </div>
+
+            <div class="slds-m-top_medium">
+                <lightning-button
+                    label="Search"
+                    variant="brand"
+                    onclick={handleSearch}>
+                </lightning-button>
+
+                <lightning-button
+                    class="slds-m-left_small"
+                    label="Clear"
+                    variant="neutral"
+                    onclick={handleClear}>
+                </lightning-button>
+            </div>
+
+            <div class="slds-m-top_medium">
+                <lightning-badge label={resultCountLabel}></lightning-badge>
+            </div>
+
+            <template lwc:if={isLoading}>
+                <div class="slds-m-top_medium">
+                    <lightning-spinner
+                        alternative-text="Searching Accounts"
+                        size="medium">
+                    </lightning-spinner>
+                </div>
+            </template>
+
+            <template lwc:if={errorMessage}>
+                <div class="slds-box slds-theme_error slds-m-top_medium">
+                    <p>{errorMessage}</p>
+                </div>
+            </template>
+
+            <div class="slds-grid slds-wrap slds-gutters slds-m-top_medium">
+                <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-2">
+                    <p class="slds-text-heading_small slds-m-bottom_small">
+                        Search Results
+                    </p>
+
+                    <template lwc:if={hasResults}>
+                        <template for:each={accounts} for:item="account">
+                            <c-service-account-card
+                                key={account.Id}
+                                account={account}
+                                selected-account-id={selectedAccountId}
+                                onaccountselect={handleAccountSelect}>
+                            </c-service-account-card>
+                        </template>
+                    </template>
+
+                    <template lwc:elseif={hasSearched}>
+                        <div class="slds-box">
+                            <p>No matching Accounts found.</p>
+                        </div>
+                    </template>
+
+                    <template lwc:else>
+                        <div class="slds-box">
+                            <p>Enter at least 2 characters, then click Search.</p>
+                        </div>
+                    </template>
+                </div>
+
+                <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-2">
+                    <p class="slds-text-heading_small slds-m-bottom_small">
+                        Selected Account
+                    </p>
+
+                    <template lwc:if={hasSelectedAccount}>
+                        <div class="slds-box">
+                            <p class="slds-text-heading_small">
+                                {selectedAccountName}
+                            </p>
+
+                            <p class="slds-m-top_small slds-m-bottom_small">
+                                Update the Account phone or website below.
+                            </p>
+
+                            <lightning-record-form
+                                record-id={selectedAccountId}
+                                object-api-name="Account"
+                                fields={accountFormFields}
+                                columns="1"
+                                mode="edit"
+                                onsuccess={handleRecordSave}>
+                            </lightning-record-form>
+                        </div>
+                    </template>
+
+                    <template lwc:else>
+                        <div class="slds-box">
+                            <p>Select an Account result to open the record form.</p>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </lightning-card>
+</template>
+
+

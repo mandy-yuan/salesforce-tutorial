@@ -1,0 +1,31 @@
+<template>
+    <lightning-card title="Record Context Viewer" icon-name="standard:record">
+        <div class="slds-p-around_medium">
+            <p class="slds-text-body_regular">
+                This component reads the current record page context.
+            </p>
+
+            <div class="slds-box slds-m-top_medium">
+                <p>
+                    <strong>Record ID:</strong> {recordId}
+                </p>
+
+                <p class="slds-m-top_small">
+                    <strong>Object API Name:</strong> {objectApiName}
+                </p>
+            </div>
+
+            <template lwc:if={isContactPage}>
+                <div class="slds-box slds-theme_success slds-m-top_medium">
+                    <p>This component is currently on a Contact record page.</p>
+                </div>
+            </template>
+
+            <template lwc:else>
+                <div class="slds-box slds-theme_warning slds-m-top_medium">
+                    <p>This component is not on a Contact record page.</p>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>
